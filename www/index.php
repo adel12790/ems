@@ -34,7 +34,7 @@ $id = $path[3] ?? null;
 
 // TODO: load database secrets from environment variables
 // Load the database
-$database = new Database('mysql', 'ems_db', 'admin', 'admin');
+$database = new Database();
 
 if($resource === 'events') {
     #load the models
@@ -59,3 +59,4 @@ if($resource === 'categories') {
     $categoryController->processRequest($_SERVER['REQUEST_METHOD'], $id);
     exit;
 }
+

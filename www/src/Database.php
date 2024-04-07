@@ -2,12 +2,18 @@
 
 class Database
 {
+  private string $host;
+  private string $name;
+  private string $user;
+  private string $password;
+
   public function __construct(
-    private string $host,
-    private string $name,
-    private string $user,
-    private string $password
+
   ) {
+    $this->host = getenv('DB_HOST');
+    $this->name = getenv('DB_DATABASE');
+    $this->user = getenv('DB_USER');
+    $this->password = getenv('DB_PASSWORD');
   }
 
   public function getConnection(): PDO

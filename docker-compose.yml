@@ -20,6 +20,10 @@ services:
       - SESSION_HANDLER=redis
       - SESSION_PATH=tcp://redis:6379?auth=${REDIS_PASSWORD}
       - SESSION_MAX_TIME_LIFE=86400
+      - DB_DATABASE=${MYSQL_DATABASE}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_HOST=mysql
 
   redis:
     image: redis:7.0
