@@ -46,6 +46,8 @@ services:
     image: mysql:5.7.24
     container_name: mysql
     command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./config/mysql:/var/lib/mysql
     ports:
       - 3306:3306
     environment:
@@ -64,3 +66,15 @@ services:
     links:
       - mysql
 
+  # frontend:
+  #   build:
+  #     context: ./app
+  #     target: dev-stage
+  #   container_name: frontend
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - ./app:/app
+  #   command: /bin/bash -c "yarn serve"
+  #   networks:
+  #     - ems
