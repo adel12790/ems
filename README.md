@@ -23,6 +23,8 @@ cd fe/app
 yarn dev
 ```
 
+You can find ems_db.sql dump under `config/mysql/docker-entrypoint-initdb.d` that can be imported manually, as the auto database initialization on docker container build had some issues and
+
 ## ⚙️ Configuration
 
 Don't forget to configure the environment variables file so that the project works correctly.
