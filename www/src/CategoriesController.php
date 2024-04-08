@@ -3,7 +3,7 @@ require_once 'shared/functions.php';
 
 class CategoriesController {
     public function __construct(
-        private CategoriesModel $model
+        private CategoriesRepository $repo
     ) {
     }
 
@@ -34,13 +34,13 @@ class CategoriesController {
 
     public function getCategories(): void
     {
-        $categories = $this->model->getCategories();
+        $categories = $this->repo->getCategories();
         echo json_encode($categories);
     }
 
     public function getCategory(int $id): void
     {
-        $category = $this->model->getCategory($id);
+        $category = $this->repo->getCategory($id);
 
         if (!$category) {
             http_response_code(404);
@@ -62,7 +62,7 @@ class CategoriesController {
             return;
         }
 
-        $category = $this->model->createCategory($data);
+        $category = $this->repo->createCategory($data);
         echo json_encode($category);
     }
 
@@ -78,13 +78,13 @@ class CategoriesController {
             return;
         }
 
-        $category = $this->model->updateCategory($id, $data);
+        $category = $this->repo->updateCategory($id, $data);
         echo json_encode($category);
     }
 
     public function deleteCategory(int $id): void
     {
-        $category = $this->model->deleteCategory($id);
+        $category = $this->repo->deleteCategory($id);
         echo json_encode($category);
     }
 

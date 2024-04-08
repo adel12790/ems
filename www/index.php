@@ -15,6 +15,10 @@ set_exception_handler("ErrorHandler::handleException");
 // Load configuration
 header('Content-Type: application/json; charset=utf-8');
 
+// TODO: this should be including the correct origin of the fe on production
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: *");
+
 // Load the API passed on uri path
 $uri = $_SERVER['REQUEST_URI'];
 $path = explode('/', $uri);
@@ -38,10 +42,10 @@ $database = new Database();
 
 if($resource === 'events') {
     #load the models
-    $eventModel = new EventsModel($database);
+    $eventRepo = new EventsRepository($database);
 
     #load the controllers
-    $eventController = new EventsController($eventModel);
+    $eventController = new EventsController($eventRepo);
 
     #load the routes
     $eventController->processRequest($_SERVER['REQUEST_METHOD'], $id);
@@ -50,10 +54,10 @@ if($resource === 'events') {
 
 if($resource === 'categories') {
     #load the models
-    $categoryModel = new CategoriesModel($database);
+    $categoryRepo = new CategoriesRepository($database);
 
     #load the controllers
-    $categoryController = new CategoriesController($categoryModel);
+    $categoryController = new CategoriesController($categoryRepo);
 
     #load the routes
     $categoryController->processRequest($_SERVER['REQUEST_METHOD'], $id);

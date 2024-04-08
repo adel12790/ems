@@ -3,7 +3,7 @@
 class EventsController
 {
   public function __construct(
-    private EventsModel $model
+    private EventsRepository $repo
   ) {
   }
 
@@ -36,11 +36,11 @@ class EventsController
 
   public function getEvents(): void
   {
-    $events = $this->model->getEvents();
+    $events = $this->repo->getEvents();
 
     // add categories to each event
     foreach ($events as $key => $event) {
-      $categories = $this->model->getEventCategories($event['id']);
+      $categories = $this->repo->getEventCategories($event['id']);
       $events[$key]['categories'] = $categories;
     }
     echo json_encode($events);
@@ -48,7 +48,7 @@ class EventsController
 
   public function getEvent(int $id): void
   {
-    $event = $this->model->getEvent($id);
+    $event = $this->repo->getEvent($id);
 
     if (!$event) {
       http_response_code(404);
@@ -57,7 +57,7 @@ class EventsController
     }
 
     // add categories to event
-    $categories = $this->model->getEventCategories($event['id']);
+    $categories = $this->repo->getEventCategories($event['id']);
     $event['categories'] = $categories;
     echo json_encode($event);
   }
@@ -74,7 +74,7 @@ class EventsController
       return;
     }
 
-    $event = $this->model->createEvent($data);
+    $event = $this->repo->createEvent($data);
     // add categories to event
     $categories = $this->addEventCategories($event['id']);
     $event['categories'] = $categories;
@@ -94,7 +94,7 @@ class EventsController
       return;
     }
 
-    $event = $this->model->updateEvent($id, $data);
+    $event = $this->repo->updateEvent($id, $data);
     // update categories for event
     $categories = $this->updateEventCategories((int)$id);
     $event['categories'] = $categories;
@@ -104,19 +104,19 @@ class EventsController
 
   public function deleteEvent(int $id): void
   {
-    $event = $this->model->deleteEvent($id);
+    $event = $this->repo->deleteEvent($id);
     echo json_encode(['data' => "Event id: $id deleted"]);
   }
 
   public function getEventCategories(int $id): void
   {
-    $categories = $this->model->getEventCategories($id);
+    $categories = $this->repo->getEventCategories($id);
     echo json_encode($categories);
   }
 
   public function addEventCategory(int $event_id, int $category_id): void
   {
-    $category = $this->model->addEventCategory($event_id, $category_id);
+    $category = $this->repo->addEventCategory($event_id, $category_id);
     echo json_encode($category);
   }
 
@@ -129,7 +129,7 @@ class EventsController
       return null;
     }
 
-    $categories = $this->model->addEventCategories($event_id, $data['categories']);
+    $categories = $this->repo->addEventCategories($event_id, $data['categories']);
     return $categories;
   }
 
@@ -141,13 +141,13 @@ class EventsController
       new ErrorException('Categories are required', 400, 1, __FILE__, __LINE__);
       return null;
     }
-    $categories = $this->model->updateEventCategories($event_id, $data['categories']);
+    $categories = $this->repo->updateEventCategories($event_id, $data['categories']);
     return $categories;
   }
 
   public function removeEventCategory(int $event_id, int $category_id): void
   {
-    $category = $this->model->removeEventCategory($event_id, $category_id);
+    $category = $this->repo->removeEventCategory($event_id, $category_id);
     echo json_encode($category);
   }
 

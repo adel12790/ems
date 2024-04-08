@@ -1,6 +1,6 @@
 <?php
 
-class EventsModel
+class EventsRepository
 {
   private PDO $connection;
   public function __construct(
