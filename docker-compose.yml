@@ -46,8 +46,9 @@ services:
     image: mysql:5.7.24
     container_name: mysql
     command: --default-authentication-plugin=mysql_native_password
-    volumes:
-      - ./config/mysql:/var/lib/mysql
+    # Auto import sql files
+    # volumes:
+    #   - ./config/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - 3306:3306
     environment:
@@ -68,13 +69,11 @@ services:
 
   # frontend:
   #   build:
-  #     context: ./app
+  #     context: ./fe
   #     target: dev-stage
   #   container_name: frontend
   #   ports:
   #     - 3000:3000
   #   volumes:
-  #     - ./app:/app
-  #   command: /bin/bash -c "yarn serve"
-  #   networks:
-  #     - ems
+  #     - ./fe/app:/app
+  #   command: /bin/bash -c "yarn dev"
